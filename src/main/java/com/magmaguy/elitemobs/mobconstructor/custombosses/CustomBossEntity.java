@@ -14,7 +14,6 @@ import com.magmaguy.elitemobs.mobconstructor.EliteMobEntity;
 import com.magmaguy.elitemobs.mobconstructor.SimplePersistentEntity;
 import com.magmaguy.elitemobs.mobconstructor.SimplePersistentEntityInterface;
 import com.magmaguy.elitemobs.powers.ElitePower;
-import com.magmaguy.elitemobs.thirdparty.discordsrv.DiscordSRVAnnouncement;
 import com.magmaguy.elitemobs.thirdparty.libsdisguises.DisguiseEntity;
 import com.magmaguy.elitemobs.thirdparty.worldguard.WorldGuardSpawnEventBypasser;
 import com.magmaguy.elitemobs.utils.CommandRunner;
@@ -316,7 +315,7 @@ public class CustomBossEntity extends EliteMobEntity implements Listener, Simple
             for (Player player : getLivingEntity().getWorld().getPlayers())
                 player.sendMessage(ChatColorConverter.convert(customBossConfigFields.getSpawnMessage()));
         if (customBossConfigFields.getAnnouncementPriority() < 3) return;
-        new DiscordSRVAnnouncement(ChatColorConverter.convert(customBossConfigFields.getSpawnMessage()));
+       // new DiscordSRVAnnouncement(ChatColorConverter.convert(customBossConfigFields.getSpawnMessage()));
     }
 
     private void setDisguise() {
