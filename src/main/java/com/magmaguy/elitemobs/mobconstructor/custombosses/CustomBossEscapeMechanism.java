@@ -4,7 +4,6 @@ import com.magmaguy.elitemobs.ChatColorConverter;
 import com.magmaguy.elitemobs.MetadataHandler;
 import com.magmaguy.elitemobs.api.internal.RemovalReason;
 import com.magmaguy.elitemobs.entitytracker.EntityTracker;
-import com.magmaguy.elitemobs.thirdparty.discordsrv.DiscordSRVAnnouncement;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,7 +22,7 @@ public class CustomBossEscapeMechanism {
                         if (player.getWorld().equals(customBossEntity.getLivingEntity().getWorld()))
                             player.sendMessage(ChatColorConverter.convert(customBossEntity.customBossConfigFields.getEscapeMessage()));
                 if (customBossEntity.customBossConfigFields.getAnnouncementPriority() < 3) return;
-                new DiscordSRVAnnouncement(ChatColorConverter.convert(customBossEntity.customBossConfigFields.getEscapeMessage()));
+                //new DiscordSRVAnnouncement(ChatColorConverter.convert(customBossEntity.customBossConfigFields.getEscapeMessage()));
                 EntityTracker.unregister(customBossEntity.uuid, RemovalReason.BOSS_TIMEOUT);
             }
 

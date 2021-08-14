@@ -58,8 +58,8 @@ dependencies {
         exclude group: 'org.bukkit', module: 'bukkit'
     }
     //DiscordSRV
-    compileOnly 'net.dv8tion:JDA:4.2.0_227'
-    compileOnly group: 'com.discordsrv', name: 'discordsrv', version: '1.21.3'
+    //compileOnly 'net.dv8tion:JDA:4.2.0_227'
+    //compileOnly group: 'com.discordsrv', name: 'discordsrv', version: '1.21.3'
     //SQLite
     compileOnly group: 'org.xerial', name: 'sqlite-jdbc', version: '3.32.3'
     //LibsDisguises

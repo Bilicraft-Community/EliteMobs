@@ -4,7 +4,6 @@ import com.magmaguy.elitemobs.ChatColorConverter;
 import com.magmaguy.elitemobs.api.EliteMobDeathEvent;
 import com.magmaguy.elitemobs.config.MobCombatSettingsConfig;
 import com.magmaguy.elitemobs.ondeathcommands.OnDeathCommands;
-import com.magmaguy.elitemobs.thirdparty.discordsrv.DiscordSRVAnnouncement;
 import com.magmaguy.elitemobs.utils.Round;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -124,9 +123,9 @@ public class CustomBossDeath implements Listener {
                     if (string.contains("$players"))
                         string = string.replace("$players", playersList);
                     Bukkit.broadcastMessage(ChatColorConverter.convert(string));
-                    if (string.length() > 0)
-                        if (customBossEntity.customBossConfigFields.getAnnouncementPriority() > 2)
-                            new DiscordSRVAnnouncement(ChatColorConverter.convert(string));
+                   // if (string.length() > 0)
+                        //if (customBossEntity.customBossConfigFields.getAnnouncementPriority() > 2)
+                            //new DiscordSRVAnnouncement(ChatColorConverter.convert(string));
                 }
 
                 for (Player player : Bukkit.getOnlinePlayers())
@@ -142,9 +141,9 @@ public class CustomBossDeath implements Listener {
                     if (customBossEntity.customBossConfigFields.getAnnouncementPriority() > 0)
                         Bukkit.broadcastMessage(ChatColorConverter.convert(
                                 customBossEntity.customBossConfigFields.getDeathMessage().replace("$players", playersList)));
-                    if (customBossEntity.customBossConfigFields.getAnnouncementPriority() > 2)
-                        new DiscordSRVAnnouncement(ChatColorConverter.convert(
-                                customBossEntity.customBossConfigFields.getDeathMessage().replace("$players", playersList)));
+                   // if (customBossEntity.customBossConfigFields.getAnnouncementPriority() > 2)
+                       // new DiscordSRVAnnouncement(ChatColorConverter.convert(
+                           //     customBossEntity.customBossConfigFields.getDeathMessage().replace("$players", playersList)));
                 }
             }
     }

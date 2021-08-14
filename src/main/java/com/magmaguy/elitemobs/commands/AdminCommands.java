@@ -21,8 +21,6 @@ import com.magmaguy.elitemobs.items.customitems.CustomItem;
 import com.magmaguy.elitemobs.menus.GetLootMenu;
 import com.magmaguy.elitemobs.mobconstructor.custombosses.RegionalBossEntity;
 import com.magmaguy.elitemobs.powers.ElitePower;
-import com.magmaguy.elitemobs.thirdparty.discordsrv.DiscordSRVAnnouncement;
-import com.magmaguy.elitemobs.utils.DiscordLinks;
 import io.leangen.geantyref.TypeToken;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -526,12 +524,12 @@ public class AdminCommands {
                         commandContext.get("guildRank"))));
 
         // /em discord
-        manager.command(builder.literal("discord")
-                .meta(CommandMeta.DESCRIPTION, "Gets the link for the support Discord server.")
-                .senderType(CommandSender.class)
-                .permission("elitemobs.*")
-                .handler(commandContext -> commandContext.getSender().sendMessage(
-                        ChatColorConverter.convert("&8[EliteMobs] &6Discord room for support & downloads: &9" + DiscordLinks.mainLink))));
+//        manager.command(builder.literal("discord")
+//                .meta(CommandMeta.DESCRIPTION, "Gets the link for the support Discord server.")
+//                .senderType(CommandSender.class)
+//                .permission("elitemobs.*")
+//                .handler(commandContext -> commandContext.getSender().sendMessage(
+//                        ChatColorConverter.convert("&8[EliteMobs] &6Discord room for support & downloads: &9" + DiscordLinks.mainLink))));
 
         // /em discord <message>
         manager.command(builder.literal("discord")
@@ -541,8 +539,8 @@ public class AdminCommands {
                 .senderType(CommandSender.class)
                 .permission("elitemobs.*")
                 .handler(commandContext -> {
-                    new DiscordSRVAnnouncement(commandContext.get("message"));
-                    commandContext.getSender().sendMessage(ChatColorConverter.convert("&8[EliteMobs] &aAttempted to send a message to Discord!"));
+//                    new DiscordSRVAnnouncement(commandContext.get("message"));
+//                    commandContext.getSender().sendMessage(ChatColorConverter.convert("&8[EliteMobs] &aAttempted to send a message to Discord!"));
                 }));
 
         // /em unbind

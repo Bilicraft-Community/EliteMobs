@@ -82,7 +82,7 @@ public class EliteMobs extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        saveDefaultConfig();
         Bukkit.getLogger().info(" _____ _     _____ _____ ________  ______________  _____");
         Bukkit.getLogger().info("|  ___| |   |_   _|_   _|  ___|  \\/  |  _  | ___ \\/  ___|");
         Bukkit.getLogger().info("| |__ | |     | |   | | | |__ | .  . | | | | |_/ /\\ `--.");

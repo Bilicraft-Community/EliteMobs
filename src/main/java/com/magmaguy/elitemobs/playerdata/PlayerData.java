@@ -6,6 +6,7 @@ import com.magmaguy.elitemobs.quests.PlayerQuests;
 import com.magmaguy.elitemobs.utils.InfoMessage;
 import com.magmaguy.elitemobs.utils.WarningMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -17,6 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.sql.*;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.UUID;
 
 public class PlayerData {
@@ -28,10 +30,12 @@ public class PlayerData {
     }
 
     public static boolean isInMemory(Player player) {
+        //return false;
         return playerDataHashMap.containsKey(player.getUniqueId());
     }
 
     public static boolean isInMemory(UUID uuid) {
+        //return false;
         return playerDataHashMap.containsKey(uuid);
     }
 
@@ -199,6 +203,10 @@ public class PlayerData {
         return playerDataHashMap.get(uuid).kills;
     }
 
+    public static void invalidData(UUID uuid){
+        playerDataHashMap.remove(uuid);
+    }
+
     public static void incrementKills(UUID uuid) {
         setDatabaseValue(uuid, "Kills", getKills(uuid) + 1);
 
@@ -280,6 +288,7 @@ public class PlayerData {
         try {
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + player_data_table_name + " WHERE PlayerUUID = '" + uuid.toString() + "';");
+            resultSet.next();
             Object blob = resultSet.getBlob(value);
             resultSet.close();
             statement.close();
@@ -295,6 +304,7 @@ public class PlayerData {
         try {
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + player_data_table_name + " WHERE PlayerUUID = '" + uuid.toString() + "';");
+            resultSet.next();
             String reply = resultSet.getString(value);
             resultSet.close();
             statement.close();
@@ -310,6 +320,7 @@ public class PlayerData {
         try {
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + player_data_table_name + " WHERE PlayerUUID = '" + uuid.toString() + "';");
+            resultSet.next();
             double reply = resultSet.getDouble(value);
             resultSet.close();
             statement.close();
@@ -325,6 +336,7 @@ public class PlayerData {
         try {
             Statement statement = getConnection().createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + player_data_table_name + " WHERE PlayerUUID = '" + uuid.toString() + "';");
+            resultSet.next();
             int reply = resultSet.getInt(value);
             resultSet.close();
             statement.close();
@@ -452,16 +464,40 @@ public class PlayerData {
 
     private static Connection connection = null;
     public static final String database_name = "player_data.db";
-    public static final String player_data_table_name = "PlayerData";
+    public static final String player_data_table_name = "elitemobs_PlayerData";
+    private static String url = null;
+    private static Properties info =null;
 
     public static Connection getConnection() throws Exception {
-        File dataFolder = new File(MetadataHandler.PLUGIN.getDataFolder(), "data/" + database_name);
-        if (connection == null || connection.isClosed()) {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
-            connection.setAutoCommit(true);
+        File sqlFile = new File(MetadataHandler.PLUGIN.getDataFolder(),"sql.yml");
+        if(!sqlFile.exists()){
+            sqlFile.createNewFile();
         }
+        YamlConfiguration sqlYaml = YamlConfiguration.loadConfiguration(sqlFile);
+        if(url == null || info == null) {
+            info = new Properties();
+            info.setProperty("autoReconnect", "true");
+            info.setProperty("user", sqlYaml.getString("mysql.user"));
+            info.setProperty("password", sqlYaml.getString("mysql.password"));
+            info.setProperty("useUnicode", "true");
+            info.setProperty("characterEncoding", "utf8");
+            //info.setProperty("maxReconnects", "65535");
+            // info.setProperty("failOverReadOnly", "false");
+            info.setProperty("useSSL", "false");
+            url = "jdbc:mysql://" + sqlYaml.getString("mysql.host") + ":" + sqlYaml.getString("mysql.port") + "/" + sqlYaml.getString("mysql.database");
+        }
+        Connection connection = DriverManager.getConnection(url, info);
+        connection.setAutoCommit(true);
         return connection;
+
+
+//        File dataFolder = new File(MetadataHandler.PLUGIN.getDataFolder(), "data/" + database_name);
+//        if (connection == null || connection.isClosed()) {
+//            Class.forName("org.sqlite.JDBC");
+//            connection = DriverManager.getConnection("jdbc:sqlite:" + dataFolder);
+//            connection.setAutoCommit(true);
+//        }
+//        return connection;
     }
 
     public static void closeConnection() {
@@ -482,7 +518,7 @@ public class PlayerData {
 
             statement = getConnection().createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS " + player_data_table_name +
-                    "(PlayerUUID             TEXT PRIMARY KEY    NOT NULL," +
+                    "(PlayerUUID             CHAR(36) PRIMARY KEY    NOT NULL," +
                     " DisplayName                       TEXT," +
                     " Currency                          REAL," +
                     " GuildPrestigeLevel                 INT," +
