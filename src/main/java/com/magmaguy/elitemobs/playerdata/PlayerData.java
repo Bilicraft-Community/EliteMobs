@@ -513,7 +513,7 @@ public class PlayerData {
 
             statement = getConnection().createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS " + player_data_table_name +
-                    "(PlayerUUID             TEXT PRIMARY KEY    NOT NULL," +
+                    "(PlayerUUID             CHAR(36) PRIMARY KEY    NOT NULL," +
                     " DisplayName                       TEXT," +
                     " Currency                          REAL," +
                     " GuildPrestigeLevel                 INT," +
